@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento Competencial MRU - Kilómetro Lanzado</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax para fórmulas LaTeX -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        .pulse-btn {
+            animation: pulse-soft 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- CABECERA PEDAGÓGICA -->
+    <header class="bg-gradient-to-r from-blue-700 via-indigo-800 to-cyan-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-white/10 p-3 rounded-full border border-white/20 text-3xl">
+                    <i class="fa-solid fa-person-skiing text-cyan-200"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold tracking-wider uppercase bg-cyan-500/30 text-cyan-200 px-2 py-0.5 rounded-full">
+                        Andorra - Física 3º ESO - UT 3.4
+                    </span>
+                    <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Esquí de Velocidad y MRU</h1>
+                    <p class="text-xs text-slate-200 mt-1">Desarrollo de la Competencia Científica C2 (Indagación) y C3 (Rigor)</p>
+                </div>
+            </div>
+            
+            <!-- Tablero de Progreso Competencial -->
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-xs w-full md:w-auto">
+                <p class="font-bold mb-2 text-cyan-200 text-center md:text-left">
+                    <i class="fa-solid fa-trophy mr-1"></i> Tu Progreso Académico
+                </p>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div class="flex items-center gap-2">
+                        <span id="badge-c2ca1" class="w-3 h-3 rounded-full bg-red-400"></span>
+                        <span>C2CA1 Pertinencia:</span>
+                        <span id="txt-c2ca1" class="font-bold text-red-200">En proceso</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="badge-c2ca2" class="w-3 h-3 rounded-full bg-red-400"></span>
+                        <span>C2CA2 Rigor:</span>
+                        <span id="txt-c2ca2" class="font-bold text-red-200">En proceso</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- SIDEBAR IZQUIERDA: INDICADORES Y AYUDA (Col: 4/12) -->
+        <aside class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Bloque de Indicadores del Currículum Andorrano -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-lg font-bold text-indigo-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-compass-drafting"></i> Evaluación C2 y C3
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                    Resuelve de manera ordenada cada nivel en tu <b>libreta física</b>, haz tus esquemas y selecciona la respuesta correcta. ¡Debes superar todos los ejercicios de cada nivel para desbloquear las pistas más complejas!
+                </p>
+                
+                <hr class="my-3 border-slate-100">
+                
+                <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Indicadores a alcanzar:</h3>
+                <div class="space-y-3">
+                    <div id="ind-cfn4" class="flex gap-3 p-2 rounded-lg bg-slate-50 border border-slate-100 transition-all">
+                        <div class="text-sm text-slate-400 font-bold w-10 text-center shrink-0 bg-slate-200/50 rounded py-0.5">CFN4</div>
+                        <div>
+                            <p class="text-xs font-semibold">Transformación de Unidades</p>
+                            <p class="text-[11px] text-slate-500">Convierte correctamente las velocidades del esquí ($km/h$) a unidades del S.I. ($m/s$).</p>
+                        </div>
+                    </div>
+                    <div id="ind-cfn1" class="flex gap-3 p-2 rounded-lg bg-slate-50 border border-slate-100 transition-all">
+                        <div class="text-sm text-slate-400 font-bold w-10 text-center shrink-0 bg-slate-200/50 rounded py-0.5">CFN1</div>
+                        <div>
+                            <p class="text-xs font-semibold">Diseño de Método (Fórmulas)</p>
+                            <p class="text-[11px] text-slate-500">Aplica las fórmulas de posición, velocidad o encuentros de forma pertinente.</p>
+                        </div>
+                    </div>
+                    <div id="ind-cfn5" class="flex gap-3 p-2 rounded-lg bg-slate-50 border border-slate-100 transition-all">
+                        <div class="text-sm text-slate-400 font-bold w-10 text-center shrink-0 bg-slate-200/50 rounded py-0.5">CFN5</div>
+                        <div>
+                            <p class="text-xs font-semibold">Cálculo y Magnitudes</p>
+                            <p class="text-[11px] text-slate-500">Opera matemáticamente con precisión expresando la unidad de medida adecuada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ayuda de Fórmulas y libreta borrador -->
+            <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-5 rounded-2xl shadow-sm">
+                <h3 class="text-sm font-bold uppercase text-indigo-300 tracking-wider mb-2">
+                    <i class="fa-solid fa-book-open mr-1"></i> Fórmulas del MRU (Ayuda)
+                </h3>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                    En el Movimiento Rectilíneo Uniforme, la trayectoria es una línea recta y la velocidad es constante.
+                </p>
+                <div class="bg-white/10 p-3 rounded-lg text-xs space-y-2 border border-white/10">
+                    <div class="flex justify-around py-1 font-mono text-cyan-200 font-bold">
+                        <div>v = Δx / t</div>
+                        <div>x_f = x_0 + v · t</div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 text-center">
+                        Para pasar de $km/h$ a $m/s$, se divide el valor de la velocidad entre $3.6$.
+                    </p>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- SECCIÓN DE SIMULACIÓN Y NIVELES (Col: 8/12) -->
+        <section class="lg:col-span-8 flex flex-col gap-6">
+
+            <!-- PISTA DE SIMULACIÓN DINÁMICA -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex justify-between items-center mb-3">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-indigo-950 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-cyan-500"></i> Laboratorio de Simulación - Grandvalira
+                        </h2>
+                        <p class="text-xs text-slate-500">Pista de Kilómetro Lanzado (Riberal). Observa el comportamiento de los corredores en la pista.</p>
+                    </div>
+                    <span id="pista-status" class="bg-cyan-100 text-cyan-800 text-xs px-2.5 py-1 rounded-full font-semibold border border-cyan-200">
+                        Nivel 1: Ejercicio 1
+                    </span>
+                </div>
+
+                <!-- CANVAS DE ANIMACIÓN -->
+                <div class="relative w-full h-44 bg-gradient-to-b from-sky-200 to-sky-100 rounded-xl overflow-hidden border border-slate-300 shadow-inner">
+                    <div class="absolute bottom-0 w-full h-16 bg-white border-t border-slate-200"></div>
+                    <div class="absolute bottom-4 right-6 text-xs text-slate-400 flex items-center gap-1 font-semibold">
+                        <i class="fa-solid fa-mountain text-indigo-100 text-xl mr-1"></i> Riberal, Sector Grau Roig
+                    </div>
+
+                    <div class="absolute bottom-12 left-[10%] border-l-2 border-dashed border-red-500 h-8 flex flex-col justify-end items-center">
+                        <span class="text-[9px] bg-red-500 text-white font-bold px-1 rounded-sm">X = 0m</span>
+                    </div>
+                    <div class="absolute bottom-12 left-[80%] border-l-2 border-dashed border-red-500 h-8 flex flex-col justify-end items-center">
+                        <span class="text-[9px] bg-red-500 text-white font-bold px-1 rounded-sm">X = 100m</span>
+                    </div>
+
+                    <div id="skier-a" class="absolute bottom-10 left-[10%] transform -translate-x-1/2 transition-all duration-75 text-3xl z-10 filter drop-shadow">
+                        ⛷️
+                    </div>
+
+                    <div id="skier-b" class="absolute bottom-4 left-[10%] transform -translate-x-1/2 transition-all duration-75 text-3xl z-10 filter drop-shadow hidden">
+                        🏂
+                    </div>
+
+                    <div class="absolute top-2 left-2 bg-slate-900/85 backdrop-blur-md rounded-lg p-2 text-white font-mono text-xs space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                            <span>Esquiador A: <span id="live-pos-a" class="text-cyan-300 font-bold">0.0</span> m</span>
+                        </div>
+                        <div id="live-b-container" class="flex items-center gap-2 hidden">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            <span>Esquiador B: <span id="live-pos-b" class="text-blue-300 font-bold">0.0</span> m</span>
+                        </div>
+                        <div>Tiempo: <span id="live-time" class="text-amber-400 font-bold">0.00</span> s</div>
+                    </div>
+                </div>
+
+                <!-- CONTROLES DE LA SIMULACIÓN -->
+                <div class="flex justify-between items-center mt-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <p class="text-xs text-slate-500">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Resuelve en tu libreta primero. Usa el botón "Simular" para comprobar visualmente.
+                    </p>
+                    <div class="flex gap-2">
+                        <button id="btn-simulate" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold shadow text-xs hover:bg-indigo-700 transition flex items-center gap-1.5 pulse-btn">
+                            <i class="fa-solid fa-play"></i> Simular Problema
+                        </button>
+                        <button id="btn-reset" class="bg-slate-300 text-slate-700 px-3 py-2 rounded-lg font-bold shadow text-xs hover:bg-slate-400 transition flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-left"></i> Reiniciar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APARTADO DE EJERCICIOS GAMIFICADOS POR NIVELES -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                
+                <div class="flex border-b border-slate-200 mb-6 overflow-x-auto gap-2">
+                    <button id="tab-lvl1" onclick="changeLevel(1)" class="px-4 py-2 text-sm font-extrabold border-b-2 border-indigo-600 text-indigo-600 flex items-center gap-2">
+                        <i class="fa-solid fa-unlock text-green-500"></i> Nivel 1: Conversiones
+                    </button>
+                    <button id="tab-lvl2" onclick="changeLevel(2)" class="px-4 py-2 text-sm font-bold text-slate-400 border-b-2 border-transparent flex items-center gap-2 cursor-not-allowed" disabled>
+                        <i class="fa-solid fa-lock text-slate-400" id="lock-lvl2"></i> Nivel 2: Ecuaciones
+                    </button>
+                    <button id="tab-lvl3" onclick="changeLevel(3)" class="px-4 py-2 text-sm font-bold text-slate-400 border-b-2 border-transparent flex items-center gap-2 cursor-not-allowed" disabled>
+                        <i class="fa-solid fa-lock text-slate-400" id="lock-lvl3"></i> Nivel 3: Encuentros
+                    </button>
+                </div>
+
+                <div class="mb-4 flex justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <span class="font-bold text-slate-600">Ejercicios superados en este nivel:</span>
+                    <div class="flex gap-1.5" id="exercise-status-badges">
+                        <!-- Badges dinámicos -->
+                    </div>
+                </div>
+
+                <!-- ÁREA DINÁMICA DE PREGUNTAS -->
+                <div id="question-container" class="space-y-6">
+                    <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span id="label-num-level" class="bg-indigo-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded">
+                                    NIVEL 1
+                                </span>
+                                <span class="text-xs font-bold text-slate-500" id="question-concept">
+                                    Concepto
+                                </span>
+                            </div>
+                            <span class="text-[11px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full" id="label-exercise-counter">
+                                Ejercicio 1 de 5
+                            </span>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800 leading-relaxed" id="question-text">
+                            <!-- Se inyecta dinámicamente -->
+                        </p>
+                    </div>
+
+                    <!-- OPCIONES -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="options-grid"></div>
+
+                    <!-- FEEDBACK -->
+                    <div id="feedback-panel" class="hidden p-4 rounded-xl text-xs font-semibold flex items-start gap-2.5 transition-all"></div>
+
+                    <!-- ACCIONES -->
+                    <div class="flex justify-between items-center pt-2">
+                        <p class="text-[11px] text-slate-400" id="hint-text">
+                            *Sugerencia: Haz los cálculos en tu cuaderno antes de responder.
+                        </p>
+                        <div class="flex gap-2">
+                            <button id="btn-submit" onclick="validateAnswer()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-bold shadow text-xs hover:bg-indigo-700 transition">
+                                Validar Respuesta
+                            </button>
+                            <button id="btn-next" onclick="goToNextExercise()" class="bg-green-600 text-white px-5 py-2.5 rounded-lg font-bold shadow text-xs hover:bg-green-700 transition hidden">
+                                Siguiente Ejercicio <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- PANEL DE EVALUACIÓN FINAL DE NIVEL CON ENVÍO AUTOMÁTICO PROTEGIDO (MODAL) -->
+    <div id="modal-level-complete" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center border-t-8 border-indigo-600 shadow-2xl relative my-8">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 text-3xl rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-slate-950" id="level-complete-title">¡Nivel Completado!</h3>
+            <p class="text-sm text-slate-600 mt-2">
+                Has terminado los 5 ejercicios. Tu rendimiento ha sido evaluado según los fallos cometidos.
+            </p>
+            
+            <div class="my-4 bg-slate-50 p-4 rounded-xl text-left text-xs space-y-3 border border-slate-200">
+                <div class="grid grid-cols-2 gap-2 text-sm border-b pb-2 mb-1">
+                    <div>Ejercicios Resueltos: <span class="font-bold text-slate-800">5 / 5</span></div>
+                    <div>Fallos totales: <span id="stat-mistakes" class="font-bold text-red-600">0</span></div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tu Calificación:</span>
+                    <span id="stat-grade" class="text-3xl font-black text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-lg border border-indigo-200">A</span>
+                </div>
+            </div>
+
+            <!-- ENVÍO COMPLETAMENTE SEGURO E INALTERABLE -->
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 text-left">
+                <p class="text-xs font-bold text-blue-900 mb-2">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> Envío de Calificaciones Protegido
+                </p>
+                <p class="text-[11px] text-blue-800 mb-3">
+                    Introduce tu nombre y pulsa el botón. Tu nota y fallos se enviarán directamente de forma interna. Se abrirá una pestaña que te confirmará el registro correcto de tu evaluación sin opción a modificar los datos.
+                </p>
+                
+                <input type="text" id="student-name" placeholder="Escribe aquí tu Nombre y Apellido" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3">
+
+                <button id="btn-auto-send" onclick="sendToGoogleForms()" class="w-full bg-blue-600 text-white font-bold text-sm px-4 py-3 rounded-lg hover:bg-blue-700 transition shadow flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Enviar Nota de Forma Segura
+                </button>
+            </div>
+
+            <div class="flex justify-center pt-2 border-t border-slate-200">
+                <button onclick="closeLevelCompleteModal()" id="btn-modal-continue" class="bg-indigo-600 text-white font-bold text-xs px-6 py-3 rounded-lg hover:bg-indigo-700 transition shadow-md hidden">
+                    Continuar al Siguiente Nivel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO OCULTO PARA ENVÍO SEGURO DIRECTO MEDIANTE POST A NUEVA PESTAÑA -->
+    <form id="secure-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeCK_SgCX9_jt8XzQ18Jl5U31fdi2ilWtE-aR1U2sZYc-iEZw/formResponse" method="POST" target="_blank" style="display:none;">
+        <input type="text" name="entry.804282357" id="secure_nombre">
+        <input type="text" name="entry.387807003" id="secure_nivel">
+        <input type="text" name="entry.142293117" id="secure_nota">
+        <input type="text" name="entry.11671736" id="secure_fallos">
+    </form>
+
+    <!-- PANEL DE ÉXITO FINAL -->
+    <div id="modal-success" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center border-t-8 border-green-500 shadow-2xl relative my-8">
+            <div class="w-16 h-16 bg-green-100 text-green-600 text-3xl rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-slate-950">¡Excelente, Científico/a de Grandvalira!</h3>
+            <p class="text-sm text-slate-600 mt-2">Has completado con éxito todas las fases sobre el MRU.</p>
+            <div class="flex justify-center mt-4">
+                <button onclick="closeModal()" class="bg-indigo-600 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition">Volver a entrenar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-5 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center gap-4">
+            <div>
+                <p class="font-bold text-slate-300">UT 3.4 Física 3º ESO - Esquí de Velocidad / Marc Educatiu Andorrà</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE JUEGO, INTENTOS Y SIMULACIÓN FISICA -->
+    <script>
+        const exerciseDatabase = {
+            1: [
+                {
+                    concept: "Conversiones de Esquí de Velocidad (CFN4)",
+                    text: "En la pista de velocidad Riberal, un esquiador registra una marca de $180 \\text{ km/h}$. Si realizas la conversión con factores de conversión en tu libreta, ¿cuál es esta velocidad expresada en unidades del Sistema Internacional ($m/s$)?",
+                    options: [
+                        { id: "A", text: "50 m/s", isCorrect: true },
+                        { id: "B", text: "648 m/s", isCorrect: false },
+                        { id: "C", text: "18 m/s", isCorrect: false },
+                        { id: "D", text: "5 m/s", isCorrect: false }
+                    ],
+                    formulaHint: "Aplica la fórmula de conversión de velocidad de $km/h$ a $m/s$: \n $$v \\text (m/s) = \\frac{v \\text (km/h)}{3.6}$$ \n Divide el valor entre $3.6$."
+                },
+                {
+                    concept: "Conversión de Velocidad de Aludes (CFN4)",
+                    text: "Durante el invierno andorrano, una masa de nieve acumulada se desliza por la ladera a una velocidad constante de $72 \\text{ km/h}$. Expresa esta velocidad en el Sistema Internacional ($m/s$).",
+                    options: [
+                        { id: "A", text: "259.2 m/s", isCorrect: false },
+                        { id: "B", text: "20 m/s", isCorrect: true },
+                        { id: "C", text: "7.2 m/s", isCorrect: false },
+                        { id: "D", text: "2 m/s", isCorrect: false }
+                    ],
+                    formulaHint: "Aplica la conversión dividiendo entre $3.6$: \n $$v \\text (m/s) = \\frac{v \\text (km/h)}{3.6}$$ \n Haz la división en tu cuaderno."
+                },
+                {
+                    concept: "Convertir de m/s a km/h (CFN4)",
+                    text: "Un telesilla de Grau Roig se desplaza a una velocidad constante de $5 \\text{ m/s}$. Para explicarle a un turista su velocidad en unidades de carretera, exprésala en $km/h$.",
+                    options: [
+                        { id: "A", text: "1.38 km/h", isCorrect: false },
+                        { id: "B", text: "18 km/h", isCorrect: true },
+                        { id: "C", text: "50 km/h", isCorrect: false },
+                        { id: "D", text: "15 km/h", isCorrect: false }
+                    ],
+                    formulaHint: "Para realizar el proceso inverso, aplica la multiplicación por $3.6$: \n $$v \\text (km/h) = v \\text (m/s) \\cdot 3.6$$"
+                },
+                {
+                    concept: "Velocidad de Esquiadores Profesionales (CFN4)",
+                    text: "La velocidad de entrenamiento de un corredor junior en la pista Riberal es de $36 \\text{ m/s}$. ¿A cuántos $km/h$ equivale esta velocidad?",
+                    options: [
+                        { id: "A", text: "10 km/h", isCorrect: false },
+                        { id: "B", text: "100 km/h", isCorrect: false },
+                        { id: "C", text: "129.6 km/h", isCorrect: true },
+                        { id: "D", text: "12.9 km/h", isCorrect: false }
+                    ],
+                    formulaHint: "Convierte de $m/s$ a $km/h$ multiplicando por el factor constante: \n $$v \\text (km/h) = v \\text (m/s) \\cdot 3.6$$"
+                },
+                {
+                    concept: "Límite de Seguridad Vial de Andorra (CFN4)",
+                    text: "Las máquinas quitanieves en las carreteras de alta montaña andorranas tienen prohibido superar la velocidad de $90 \\text{ km/h}$ cuando limpian nieve. Convierte esta velocidad reglamentaria a $m/s$.",
+                    options: [
+                        { id: "A", text: "25 m/s", isCorrect: true },
+                        { id: "B", text: "324 m/s", isCorrect: false },
+                        { id: "C", text: "9 m/s", isCorrect: false },
+                        { id: "D", text: "15 m/s", isCorrect: false }
+                    ],
+                    formulaHint: "Pasa de $km/h$ a la unidad del Sistema Internacional dividiendo el valor entre el factor de conversión: \n $$v \\text (m/s) = \\frac{v \\text (km/h)}}{3.6}$$"
+                }
+            ],
+            2: [
+                {
+                    concept: "Ecuación de Posición Final (CFN1, CFN5)",
+                    text: "Un deportista pasa por el sensor de cronometraje situado a $x_0 = 30 \\text{ m}$ con una velocidad constante de $35 \\text{ m/s}$. ¿En qué posición final ($x_f$) estará tras exactamente $2 \\text{ segundos}$?",
+                    options: [
+                        { id: "A", text: "70 m", isCorrect: false },
+                        { id: "B", text: "100 m", isCorrect: true },
+                        { id: "C", text: "65 m", isCorrect: false },
+                        { id: "D", text: "135 m", isCorrect: false }
+                    ],
+                    formulaHint: "Usa la ecuación fundamental de la posición en el MRU: \n $$x_f = x_0 + v \\cdot t$$ \n Identifica: $x_0 = 30$, $v = 35$ y $t = 2$."
+                },
+                {
+                    concept: "Hallar el Tiempo de Descenso (CFN1, CFN5)",
+                    text: "Un esquiador de velocidad recorre el tramo de control de la pista Riberal desde la marca $x_0 = 10 \\text{ m}$ hasta la meta en $x_f = 90 \\text{ m}$ a una velocidad constante de $20 \\text{ m/s}$. ¿Cuánto tiempo tarda en recorrer esta distancia?",
+                    options: [
+                        { id: "A", text: "4 s", isCorrect: true },
+                        { id: "B", text: "4.5 s", isCorrect: false },
+                        { id: "C", text: "5 s", isCorrect: false },
+                        { id: "D", text: "3.5 s", isCorrect: false }
+                    ],
+                    formulaHint: "Despeja la variable tiempo ($t$) de la ecuación de movimiento: \n $$x_f = x_0 + v \\cdot t \\Rightarrow t = \\frac{x_f - x_0}{v}$$"
+                },
+                {
+                    concept: "Posición Inicial del Cronometraje (CFN1, CFN5)",
+                    text: "Un esquiador alcanza la meta a $x_f = 100 \\text{ m}$ tras correr durante exactamente $2 \\text{ segundos}$ a una velocidad de $40 \\text{ m/s}$. ¿De qué punto de salida parcial ($x_0$) partió?",
+                    options: [
+                        { id: "A", text: "0 m", isCorrect: false },
+                        { id: "B", text: "20 m", isCorrect: true },
+                        { id: "C", text: "40 m", isCorrect: false },
+                        { id: "D", text: "10 m", isCorrect: false }
+                    ],
+                    formulaHint: "Aisla la posición inicial ($x_0$) de la ecuación: \n $$x_f = x_0 + v \\cdot t \\Rightarrow x_0 = x_f - (v \\cdot t)$$"
+                },
+                {
+                    concept: "Ecuación con conversión implícita (CFN4, CFN5)",
+                    text: "Un deportista desciende desde la posición $x_0 = 0 \\text{ m}$ a una velocidad de $108 \\text{ km/h}$. ¿Qué posición alcanzará tras $2.5 \\text{ segundos}$ de descenso uniforme?",
+                    options: [
+                        { id: "A", text: "270 m", isCorrect: false },
+                        { id: "B", text: "75 m", isCorrect: true },
+                        { id: "C", text: "108 m", isCorrect: false },
+                        { id: "D", text: "50 m", isCorrect: false }
+                    ],
+                    formulaHint: "Primero debes convertir la velocidad a $m/s$ dividiendo por $3.6$. Después, aplica la ecuación de posición del MRU: \n $$x_f = x_0 + v \\cdot t$$"
+                },
+                {
+                    concept: "Cálculo de la Velocidad del Corredor (CFN5, CFN6)",
+                    text: "Un esquiador pasa de una posición $x_0 = 15 \\text{ m}$ a una posición $x_f = 95 \\text{ m}$ en exactamente $4 \\text{ segundos}$ con velocidad constante. ¿Cuál es su velocidad?",
+                    options: [
+                        { id: "A", text: "15 m/s", isCorrect: false },
+                        { id: "B", text: "20 m/s", isCorrect: true },
+                        { id: "C", text: "24 m/s", isCorrect: false },
+                        { id: "D", text: "30 m/s", isCorrect: false }
+                    ],
+                    formulaHint: "Aplica la fórmula de la velocidad como distancia recorrida partido por tiempo: \n $$v = \\frac{\\Delta x}{t} = \\frac{x_f - x_0}{t}$$"
+                }
+            ],
+            3: [
+                {
+                    concept: "Persecución en Pista (CFN1, CFN5)",
+                    text: "Dos esquiadores descienden en la misma dirección. El esquiador A sale de $x_{0A} = 0 \\text{ m}$ a $30 \\text{ m/s}$. El esquiador B sale con ventaja desde $x_{0B} = 30 \\text{ m}$ pero a una velocidad menor de $20 \\text{ m/s}$. ¿En qué punto exacto ($x$) se encontrarán?",
+                    options: [
+                        { id: "A", text: "60 m", isCorrect: false },
+                        { id: "B", text: "90 m", isCorrect: true },
+                        { id: "C", text: "120 m", isCorrect: false },
+                        { id: "D", text: "150 m", isCorrect: false }
+                    ],
+                    formulaHint: "Iguala las dos ecuaciones de posición para hallar el tiempo de encuentro ($t$): \n $$x_A = x_B \\Rightarrow v_A \\cdot t = x_{0B} + v_B \\cdot t$$"
+                },
+                {
+                    concept: "Tiempo de Alcance (CFN1, CFN5)",
+                    text: "Un telesilla parado en $x_{0A} = 0 \\text{ m}$ empieza a subir a una velocidad de $10 \\text{ m/s}$. En ese mismo instante, un dron sale desde $50 \\text{ m}$ más atrás ($x_{0B} = -50 \\text{ m}$) persiguiéndolo a una velocidad constante de $20 \\text{ m/s}$. ¿Cuánto tiempo tarda en alcanzarlo?",
+                    options: [
+                        { id: "A", text: "2.5 s", isCorrect: false },
+                        { id: "B", text: "4 s", isCorrect: false },
+                        { id: "C", text: "5 s", isCorrect: true },
+                        { id: "D", text: "10 s", isCorrect: false }
+                    ],
+                    formulaHint: "Plantea las ecuaciones de posición de ambos móviles e iguálalas: \n $$x_{\\text{telesilla}} = 10 \\cdot t$$\n$$x_{\\text{dron}} = -50 + 20 \\cdot t$$"
+                },
+                {
+                    concept: "Encuentro de Frente (CFN1, CFN5, CFN6)",
+                    text: "Dos esquiadores van al encuentro en sentidos opuestos. El corredor A sale desde $x_{0A} = 0 \\text{ m}$ a una velocidad de $15 \\text{ m/s}$ hacia la derecha. El corredor B sale en sentido opuesto desde $x_{0B} = 100 \\text{ m}$ a una velocidad constante de $10 \\text{ m/s}$ hacia la izquierda (su velocidad es de $-10 \\text{ m/s}$). ¿En qué posición respecto del origen se cruzan?",
+                    options: [
+                        { id: "A", text: "50 m", isCorrect: false },
+                        { id: "B", text: "60 m", isCorrect: true },
+                        { id: "C", text: "40 m", isCorrect: false },
+                        { id: "D", text: "75 m", isCorrect: false }
+                    ],
+                    formulaHint: "Plantea las ecuaciones considerando que B va en sentido negativo: \n $$x_A = v_A \\cdot t$$\n$$x_B = x_{0B} - v_B \\cdot t$$"
+                },
+                {
+                    concept: "Tiempo de Encuentro de Persecución (CFN5)",
+                    text: "Un esquiador A sale de $x_{0A} = 10 \\text{ m}$ a una velocidad constante de $25 \\text{ m/s}$. Otro esquiador B sale de $x_{0B} = 40 \\text{ m}$ a una velocidad de $15 \\text{ m/s}$. ¿Cuánto tiempo transcurre hasta que el esquiador A alcanza al B?",
+                    options: [
+                        { id: "A", text: "2 s", isCorrect: false },
+                        { id: "B", text: "3 s", isCorrect: true },
+                        { id: "C", text: "4 s", isCorrect: false },
+                        { id: "D", text: "5 s", isCorrect: false }
+                    ],
+                    formulaHint: "Iguala las dos ecuaciones de posición para hallar el tiempo de alcance: \n $$x_{0A} + v_A \\cdot t = x_{0B} + v_B \\cdot t$$"
+                },
+                {
+                    concept: "Cruce de frente en la pista (CFN5)",
+                    text: "Dos esquiadores viajan de frente. El corredor A sale de $x_{0A} = 10 \\text{ m}$ a $30 \\text{ m/s}$ y el B de $x_{0B} = 110 \\text{ m}$ en sentido contrario a $20 \\text{ m/s}$ (su velocidad es de $-20 \\text{ m/s}$). ¿Cuánto tardarán en encontrarse cara a cara?",
+                    options: [
+                        { id: "A", text: "2 s", isCorrect: true },
+                        { id: "B", text: "2.5 s", isCorrect: false },
+                        { id: "C", text: "3 s", isCorrect: false },
+                        { id: "D", text: "1.5 s", isCorrect: false }
+                    ],
+                    formulaHint: "Usa la igualdad de posiciones con el móvil B moviéndose en sentido negativo hacia el origen: \n $$x_{0A} + v_A \\cdot t = x_{0B} - v_B \\cdot t$$"
+                }
+            ]
+        };
+
+        // Estado del Juego
+        let activeLevel = 1;
+        let unlockedLevel = 1;
+        let currentExerciseIndices = { 1: 0, 2: 0, 3: 0 };
+        let completedExercises = {
+            1: [false, false, false, false, false],
+            2: [false, false, false, false, false],
+            3: [false, false, false, false, false]
+        };
+        let levelMistakes = { 1: 0, 2: 0, 3: 0 };
+        let attemptsCount = 0;
+        let selectedOption = null;
+        let physicsTimer = null;
+        let isSimulating = false;
+
+        function loadCurrentExercise() {
+            const levelIdx = activeLevel;
+            const exIdx = currentExerciseIndices[levelIdx];
+            const data = exerciseDatabase[levelIdx][exIdx];
+
+            document.getElementById('label-num-level').textContent = `NIVEL ${levelIdx}`;
+            document.getElementById('question-concept').textContent = data.concept;
+            document.getElementById('question-text').textContent = data.text;
+            document.getElementById('pista-status').textContent = `Nivel ${levelIdx} - Ejercicio ${exIdx + 1} de 5`;
+            document.getElementById('label-exercise-counter').textContent = `Ejercicio ${exIdx + 1} de 5`;
+
+            attemptsCount = 0;
+            selectedOption = null;
+            document.getElementById('feedback-panel').classList.add('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+            document.getElementById('btn-submit').classList.remove('hidden');
+
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = "";
+            data.options.forEach(opt => {
+                const label = document.createElement('label');
+                label.className = "border-2 border-slate-200 rounded-xl p-4 hover:border-indigo-400 cursor-pointer flex items-center gap-3 bg-white transition-all";
+                label.id = `opt-lbl-${opt.id}`;
+                
+                const radio = document.createElement('input');
+                radio.type = "radio";
+                radio.name = "mru-options";
+                radio.value = opt.id;
+                radio.className = "accent-indigo-600 w-4 h-4";
+                radio.addEventListener('change', () => selectOption(opt.id));
+
+                const span = document.createElement('span');
+                span.className = "text-sm font-semibold text-slate-700";
+                span.textContent = opt.text;
+
+                label.appendChild(radio);
+                label.appendChild(span);
+                grid.appendChild(label);
+            });
+
+            updateExerciseBadges();
+            initSimConfig();
+            MathJax.typesetPromise();
+        }
+
+        function selectOption(optId) {
+            const feedbackActive = !document.getElementById('btn-next').classList.contains('hidden');
+            if (feedbackActive) return;
+            selectedOption = optId;
+            const data = exerciseDatabase[activeLevel][currentExerciseIndices[activeLevel]];
+            data.options.forEach(opt => {
+                const element = document.getElementById(`opt-lbl-${opt.id}`);
+                if (opt.id === optId) {
+                    element.className = "border-2 border-indigo-600 bg-indigo-50/50 rounded-xl p-4 cursor-pointer flex items-center gap-3 transition-all";
+                } else {
+                    element.className = "border-2 border-slate-200 rounded-xl p-4 hover:border-indigo-400 cursor-pointer flex items-center gap-3 bg-white transition-all";
+                }
+            });
+        }
+
+        function updateExerciseBadges() {
+            const container = document.getElementById('exercise-status-badges');
+            container.innerHTML = "";
+            const levelIdx = activeLevel;
+
+            for (let i = 0; i < 5; i++) {
+                const badge = document.createElement('span');
+                badge.className = "w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-sm transition-all ";
+                
+                if (completedExercises[levelIdx][i]) {
+                    badge.className += "bg-emerald-500 text-white";
+                    badge.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                } else if (i === currentExerciseIndices[levelIdx]) {
+                    badge.className += "bg-indigo-600 text-white ring-2 ring-indigo-300 animate-pulse";
+                    badge.textContent = i + 1;
+                } else {
+                    badge.className += "bg-slate-200 text-slate-500";
+                    badge.textContent = i + 1;
+                }
+                container.appendChild(badge);
+            }
+        }
+
+        function validateAnswer() {
+            if (!selectedOption) {
+                showToastFeedback("¡Por favor, selecciona una respuesta antes de validar!", "warning");
+                return;
+            }
+
+            const levelIdx = activeLevel;
+            const exIdx = currentExerciseIndices[levelIdx];
+            const data = exerciseDatabase[levelIdx][exIdx];
+            const selectedData = data.options.find(o => o.id === selectedOption);
+            const feedbackPanel = document.getElementById('feedback-panel');
+
+            feedbackPanel.className = "p-4 rounded-xl text-xs font-semibold flex items-start gap-2.5 transition-all";
+
+            if (selectedData.isCorrect) {
+                feedbackPanel.classList.add('bg-green-100', 'text-green-800', 'border', 'border-green-300');
+                feedbackPanel.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-check text-green-600 text-lg mt-0.5"></i>
+                        <div><p class="font-bold text-sm">Respuesta correcta.</p></div>
+                    </div>`;
+                feedbackPanel.classList.remove('hidden');
+
+                completedExercises[levelIdx][exIdx] = true;
+                updateExerciseBadges();
+
+                document.getElementById('btn-submit').classList.add('hidden');
+                document.getElementById('btn-next').classList.remove('hidden');
+
+                checkLevelCompletion();
+            } else {
+                levelMistakes[levelIdx]++;
+                attemptsCount++;
+
+                feedbackPanel.classList.add('bg-red-100', 'text-red-800', 'border', 'border-red-300');
+                feedbackPanel.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="font-bold text-sm">Respuesta incorrecta. ¡Sigue intentándolo!</p>
+                            <p class="mt-2 text-slate-700 bg-white/70 p-3 rounded border border-red-200">
+                                <b>Pista de fórmula a aplicar:</b><br>${data.formulaHint}
+                            </p>
+                        </div>
+                    </div>`;
+                feedbackPanel.classList.remove('hidden');
+
+                if (attemptsCount >= 2) {
+                    completedExercises[levelIdx][exIdx] = true;
+                    updateExerciseBadges();
+                    document.getElementById('btn-submit').classList.add('hidden');
+                    document.getElementById('btn-next').classList.remove('hidden');
+                    feedbackPanel.innerHTML += `<p class="mt-2 text-[11px] text-red-500 italic">Límite de intentos. Pulsa "Siguiente Ejercicio".</p>`;
+                    checkLevelCompletion();
+                }
+            }
+            MathJax.typesetPromise();
+        }
+
+        function goToNextExercise() {
+            const levelIdx = activeLevel;
+            if (currentExerciseIndices[levelIdx] < 4) {
+                currentExerciseIndices[levelIdx]++;
+                loadCurrentExercise();
+                resetSimulation();
+            } else {
+                showLevelCompleteModal();
+            }
+        }
+
+        // Evaluar la finalización total de los 5 ejercicios para desbloquear niveles
+        function checkLevelCompletion() {
+            const levelIdx = activeLevel;
+            const allDone = completedExercises[levelIdx].every(v => v === true);
+            if (allDone) markCompetencySuccess(levelIdx);
+        }
+
+        function getCalculatedGrade(mistakes) {
+            if (mistakes === 0) return "A";
+            if (mistakes === 1) return "B";
+            if (mistakes === 2 || mistakes === 3) return "C";
+            return "D";
+        }
+
+        function showLevelCompleteModal() {
+            const levelIdx = activeLevel;
+            const mistakes = levelMistakes[levelIdx];
+            let grade = getCalculatedGrade(mistakes);
+
+            document.getElementById('level-complete-title').textContent = `¡Nivel ${levelIdx} Superado!`;
+            document.getElementById('stat-mistakes').textContent = mistakes;
+            document.getElementById('stat-grade').textContent = grade;
+
+            // Resetear el botón de envío
+            const btnSend = document.getElementById('btn-auto-send');
+            btnSend.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar Nota de Forma Segura';
+            btnSend.disabled = false;
+            btnSend.className = "w-full bg-blue-600 text-white font-bold text-sm px-4 py-3 rounded-lg hover:bg-blue-700 transition shadow flex justify-center items-center gap-2";
+            
+            // Ocultar botón continuar hasta que no envíen nota
+            document.getElementById('btn-modal-continue').classList.add('hidden');
+
+            const btnContinue = document.getElementById('btn-modal-continue');
+            if (levelIdx === 3) btnContinue.textContent = "Finalizar y Ver Resultados Globales";
+            else btnContinue.textContent = `Continuar al Nivel ${levelIdx + 1}`;
+
+            document.getElementById('modal-level-complete').classList.remove('hidden');
+        }
+
+        // --- ENVIAR NOTA DIRECTA E INTEGRAL SIN PERMITIR MODIFICACIONES ---
+        function sendToGoogleForms() {
+            const nombreAlumno = document.getElementById('student-name').value.trim();
+            
+            if(!nombreAlumno) {
+                showToastFeedback("⚠️ Por favor, introduce tu nombre antes de enviar.", "warning");
+                return;
+            }
+
+            const levelIdx = activeLevel;
+            const mistakes = levelMistakes[levelIdx];
+            const grade = getCalculatedGrade(mistakes);
+
+            // Rellenamos de forma inyectada e inalterable el formulario de envío directo
+            document.getElementById('secure_nombre').value = nombreAlumno;
+            document.getElementById('secure_nivel').value = "Nivel " + levelIdx;
+            document.getElementById('secure_nota').value = grade;
+            document.getElementById('secure_fallos').value = mistakes;
+
+            // Realiza el envío del formulario usando POST directo abriendo una pestaña nueva con el resultado directo de Google
+            // El alumno NO ve los campos ni puede manipularlos, va directo a la pantalla de éxito de Google Forms
+            document.getElementById('secure-google-form').submit();
+
+            // Actualizamos la interfaz del simulador
+            const btnSend = document.getElementById('btn-auto-send');
+            btnSend.innerHTML = '<i class="fa-solid fa-circle-check"></i> Nota Enviada';
+            btnSend.className = "w-full bg-green-600 text-white font-bold text-sm px-4 py-3 rounded-lg shadow flex justify-center items-center gap-2";
+            
+            // Desbloqueamos el botón para que el alumno pueda seguir al siguiente nivel
+            document.getElementById('btn-modal-continue').classList.remove('hidden');
+            
+            showToastFeedback("¡Calificaciones enviadas directamente de forma inalterable!", "success");
+        }
+
+        function closeLevelCompleteModal() {
+            document.getElementById('modal-level-complete').classList.add('hidden');
+            const levelIdx = activeLevel;
+            if (levelIdx === 3) {
+                document.getElementById('modal-success').classList.remove('hidden');
+            } else {
+                if (levelIdx === unlockedLevel) {
+                    unlockedLevel++;
+                    enableLevelTabs();
+                }
+                changeLevel(levelIdx + 1);
+            }
+        }
+
+        function enableLevelTabs() {
+            for (let i = 2; i <= 3; i++) {
+                const tab = document.getElementById(`tab-lvl${i}`);
+                const lockIcon = document.getElementById(`lock-lvl${i}`);
+                if (unlockedLevel >= i) {
+                    tab.disabled = false;
+                    tab.className = "px-4 py-2 text-sm font-bold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 hover:border-indigo-400 flex items-center gap-2 transition cursor-pointer";
+                    if (lockIcon) lockIcon.className = "fa-solid fa-unlock text-green-500";
+                }
+            }
+        }
+
+        function changeLevel(lvl) {
+            if (lvl <= unlockedLevel) {
+                document.querySelectorAll('[id^="tab-lvl"]').forEach(t => {
+                    t.classList.remove('border-indigo-600', 'text-indigo-600', 'font-extrabold');
+                });
+                const activeTab = document.getElementById(`tab-lvl${lvl}`);
+                activeTab.classList.add('border-indigo-600', 'text-indigo-600', 'font-extrabold');
+                activeLevel = lvl;
+                loadCurrentExercise();
+                resetSimulation();
+            }
+        }
+
+        function markCompetencySuccess(lvl) {
+            if (lvl === 1) {
+                document.getElementById('ind-cfn4').className = "flex gap-3 p-2 rounded-lg bg-green-50 border border-green-300 transition-all";
+                document.getElementById('badge-c2ca2').className = "w-3 h-3 rounded-full bg-blue-400";
+                document.getElementById('txt-c2ca2').textContent = "Alcanzado";
+                document.getElementById('txt-c2ca2').className = "font-bold text-blue-200";
+            }
+            if (lvl === 2) {
+                document.getElementById('ind-cfn1').className = "flex gap-3 p-2 rounded-lg bg-green-50 border border-green-300 transition-all";
+                document.getElementById('badge-c2ca1').className = "w-3 h-3 rounded-full bg-blue-400";
+                document.getElementById('txt-c2ca1').textContent = "Alcanzado";
+                document.getElementById('txt-c2ca1').className = "font-bold text-blue-200";
+            }
+            if (lvl === 3) {
+                document.getElementById('ind-cfn5').className = "flex gap-3 p-2 rounded-lg bg-green-50 border border-green-300 transition-all";
+                document.getElementById('badge-c2ca1').className = "w-3 h-3 rounded-full bg-green-400";
+                document.getElementById('txt-c2ca1').textContent = "Excelente";
+                document.getElementById('txt-c2ca1').className = "font-bold text-green-300";
+                document.getElementById('badge-c2ca2').className = "w-3 h-3 rounded-full bg-green-400";
+                document.getElementById('txt-c2ca2').textContent = "Excelente";
+                document.getElementById('txt-c2ca2').className = "font-bold text-green-300";
+            }
+        }
+
+        function showToastFeedback(text, type) {
+            let toast = document.createElement('div');
+            toast.className = "fixed bottom-4 right-4 bg-slate-800 text-white text-xs font-bold px-4 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 flex items-center gap-2";
+            if (type === "warning") {
+                toast.classList.add("border-l-4", "border-amber-400");
+                toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-400"></i> ${text}`;
+            } else if (type === "success") {
+                toast.classList.add("border-l-4", "border-green-400");
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> ${text}`;
+            } else {
+                toast.textContent = text;
+            }
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function closeModal() {
+            document.getElementById('modal-success').classList.add('hidden');
+            currentExerciseIndices = { 1: 0, 2: 0, 3: 0 };
+            completedExercises = {
+                1: [false, false, false, false, false],
+                2: [false, false, false, false, false],
+                3: [false, false, false, false, false]
+            };
+            levelMistakes = { 1: 0, 2: 0, 3: 0 };
+            unlockedLevel = 1;
+            document.getElementById('tab-lvl2').disabled = true;
+            document.getElementById('tab-lvl2').className = "px-4 py-2 text-sm font-bold text-slate-400 border-b-2 border-transparent flex items-center gap-2 cursor-not-allowed";
+            document.getElementById('tab-lvl3').disabled = true;
+            document.getElementById('tab-lvl3').className = "px-4 py-2 text-sm font-bold text-slate-400 border-b-2 border-transparent flex items-center gap-2 cursor-not-allowed";
+            changeLevel(1);
+        }
+
+        let simA_x0 = 0, simA_v = 0;
+        let simB_x0 = 0, simB_v = 0;
+        let simTime = 0;
+
+        function initSimConfig() {
+            const lvl = activeLevel;
+            const exIdx = currentExerciseIndices[lvl];
+
+            if (lvl === 1) {
+                document.getElementById('skier-b').classList.add('hidden');
+                document.getElementById('live-b-container').classList.add('hidden');
+                simA_x0 = 0;
+                if (exIdx === 0) simA_v = 50;
+                else if (exIdx === 1) simA_v = 20;
+                else if (exIdx === 2) simA_v = 5;
+                else if (exIdx === 3) simA_v = 36;
+                else if (exIdx === 4) simA_v = 25;
+            } 
+            else if (lvl === 2) {
+                document.getElementById('skier-b').classList.add('hidden');
+                document.getElementById('live-b-container').classList.add('hidden');
+                if (exIdx === 0) { simA_x0 = 30; simA_v = 35; } 
+                else if (exIdx === 1) { simA_x0 = 10; simA_v = 20; } 
+                else if (exIdx === 2) { simA_x0 = 20; simA_v = 40; } 
+                else if (exIdx === 3) { simA_x0 = 0; simA_v = 30; } 
+                else if (exIdx === 4) { simA_x0 = 15; simA_v = 20; }
+            } 
+            else if (lvl === 3) {
+                document.getElementById('skier-b').classList.remove('hidden');
+                document.getElementById('live-b-container').classList.remove('hidden');
+                if (exIdx === 0) { simA_x0 = 0; simA_v = 30; simB_x0 = 30; simB_v = 20; } 
+                else if (exIdx === 1) { simA_x0 = 0; simA_v = 10; simB_x0 = -30; simB_v = 20; } 
+                else if (exIdx === 2) { simA_x0 = 0; simA_v = 15; simB_x0 = 100; simB_v = -10; } 
+                else if (exIdx === 3) { simA_x0 = 10; simA_v = 25; simB_x0 = 40; simB_v = 15; } 
+                else if (exIdx === 4) { simA_x0 = 10; simA_v = 30; simB_x0 = 110; simB_v = -20; }
+            }
+            updateSimPositions(0, 0);
+        }
+
+        function runPhysicalSimulation() {
+            if (isSimulating) return;
+            isSimulating = true;
+            const startRealTime = Date.now();
+            document.getElementById('btn-simulate').innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Simulando...';
+
+            physicsTimer = setInterval(() => {
+                let elapsedSec = (Date.now() - startRealTime) / 1000;
+                simTime = elapsedSec * 1.5; 
+                let posA = simA_x0 + (simA_v * simTime);
+                let posB = simB_x0 + (simB_v * simTime);
+
+                let finished = false;
+                if (activeLevel === 3) {
+                    const meets = (simA_v > simB_v && posA >= posB && simA_x0 < simB_x0) || 
+                                  (simA_v < 0 && simB_v > 0 && posA <= posB) ||
+                                  (simA_v > 0 && simB_v < 0 && posA >= posB);
+                    if (meets || (posA >= 100 && posB >= 100) || (posA >= 115) || (posB >= 115)) finished = true;
+                } else {
+                    if (posA >= 100) finished = true;
+                }
+
+                if (finished) {
+                    clearInterval(physicsTimer);
+                    isSimulating = false;
+                    document.getElementById('btn-simulate').innerHTML = '<i class="fa-solid fa-check"></i> ¡Hecho!';
+                }
+                updateSimPositions(posA, posB);
+            }, 30);
+        }
+
+        function updateSimPositions(posA, posB) {
+            document.getElementById('live-pos-a').textContent = Math.max(0, Math.min(posA, 100)).toFixed(1);
+            document.getElementById('live-pos-b').textContent = Math.max(0, Math.min(posB, 100)).toFixed(1);
+            document.getElementById('live-time').textContent = simTime.toFixed(2);
+            const minPct = 10, maxPct = 80;
+            const limitA = Math.max(0, Math.min(posA / 100, 1.1));
+            const limitB = Math.max(0, Math.min(posB / 100, 1.1));
+            document.getElementById('skier-a').style.left = `${minPct + (limitA * (maxPct - minPct))}%`;
+            document.getElementById('skier-b').style.left = `${minPct + (limitB * (maxPct - minPct))}%`;
+        }
+
+        function resetSimulation() {
+            clearInterval(physicsTimer);
+            isSimulating = false;
+            simTime = 0;
+            document.getElementById('btn-simulate').innerHTML = '<i class="fa-solid fa-play"></i> Simular Problema';
+            initSimConfig();
+        }
+
+        document.getElementById('btn-simulate').addEventListener('click', runPhysicalSimulation);
+        document.getElementById('btn-reset').addEventListener('click', resetSimulation);
+
+        window.onload = function() {
+            loadCurrentExercise();
+        };
+    </script>
+</body>
+</html>
